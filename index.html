@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Memory Game</title>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+
+<body ng-app="memoryGame" ng-controller="memoryGameCtrl as vm">
+    <!-- 	Select difficulty and start game -->
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading text-center">Memory Game</div>
+            <div class="panel-body" ng-hide="vm.game.state === 'playing'">
+                <form>
+                    <div class="form-group row">
+                        <label class="col-sm-2 text-right" for="difficultyOptions">Select Difficulty</label>
+                        <div class="col-sm-2 text-right" id="difficultyOptions">
+                            <select ng-model="game.difficulty" ng-init="game.difficulty='8'" id="inputLevelSelect" class="form-control">
+                                <option ng-model="game.difficulty" value="8">8 Pairs</option>
+                                <option ng-model="game.difficulty" value="12">12 Pairs</option>
+                                <option ng-model="game.difficulty" value="16">16 Pairs</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Start game -->
+            <div class="panel panel-footer">
+                <button class="btn btn-primary center-block" ng-click="vm.startGame(game.difficulty)" ng-hide="vm.game.state === 'playing'">New Board</button>
+                <br>
+                <button class="btn btn-primary center-block" ng-click="vm.game.state = 'pause'" ng-show="vm.game.state === 'playing'">Main Menu</button>
+                <button class="btn btn-primary center-block" ng-click="vm.game.state = 'playing'" ng-show="vm.game.state === 'pause'">Resume</button>
+            </div>
+        </div>
+    </div>
+    <!-- 	Display cards -->
+    <div class="row" id="cards" ng-hide="vm.game.state === 'pause'">
+        <div class="col-xs-12 text-center" ng-show="vm.game.state === 'playing'|| vm.game.state === 'complete'">
+            <h2>Total moves: {{moves}}</h2>
+        </div>
+        <div id="baord" class="col-xs-8 col-xs-offset-2">
+            <div ng-repeat="card in vm.cards track by $index" class="col-xs-3">
+                <img src="img/icon/chest.png" ng-hide="card.flipped" ng-click="vm.flipCard(card)" style="max-width: 80px; max-height: 80px">
+                <img ng-src="{{card.src}}" ng-show="card.flipped" style="max-width: 80px; max-height: 80px">
+            </div>
+        </div>
+    </div>
+  
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="app/app.js"></script>
+</body>
+
+</html>
